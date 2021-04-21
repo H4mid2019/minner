@@ -3,9 +3,21 @@ from requests.auth import HTTPDigestAuth
 import json
 import time
 from playsound import playsound
-from telegram_send import send
+import telebot
 
 last = 0
+
+TOKEN = ""
+CHAT_ID = "619904882" # khodam ID 619904882
+
+
+bot = telebot.TeleBot(TOKEN, parse_mode='Html')
+
+
+def send(messages):
+    bot.send_message(CHAT_ID, f"<b>{messages}</b>")
+    # bot.send_document(CHAT_ID, open(which_file, 'rb'))
+    return
 
 
 def job():
@@ -18,8 +30,8 @@ def job():
             res = c.get('http://192.168.8.120/cgi-bin/get_miner_status.cgi?',
                         headers=headers, auth=HTTPDigestAuth('root', 'root'))
             for i in json.loads(res.text)['devs']:
-                if float(i['dev_temp']) > 65:
-                    send(messages=['batch1---120', "{}----------{}".format(i['dev_temp'], json.loads(res.text)['summary']['ghsav'])])
+                if float(i['dev_temp']) > 63:
+                    send(messages="{}----------{}".format(i['dev_temp'], json.loads(res.text)['summary']['ghsav']))
                     for _ in range(10):
                         playsound('beep.mp3')
                         time.sleep(2)
