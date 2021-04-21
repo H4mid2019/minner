@@ -2,7 +2,6 @@ import requests
 from requests.auth import HTTPDigestAuth
 import json
 import time
-from playsound import playsound
 import telebot
 
 last = 0
@@ -31,10 +30,7 @@ def job():
                         headers=headers, auth=HTTPDigestAuth('root', 'root'))
             for i in json.loads(res.text)['devs']:
                 if float(i['dev_temp']) > 63:
-                    send(messages="{}----------{}".format(i['dev_temp'], json.loads(res.text)['summary']['ghsav']))
-                    for _ in range(10):
-                        playsound('beep.mp3')
-                        time.sleep(2)
+                    send(messages="miner120---{}----------{}".format(i['dev_temp'], json.loads(res.text)['summary']['ghsav']))
 
                 if first:
                     first = False
